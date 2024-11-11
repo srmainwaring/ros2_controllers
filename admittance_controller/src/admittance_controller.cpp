@@ -307,11 +307,11 @@ controller_interface::CallbackReturn AdmittanceController::on_activate(
     auto index = std::distance(allowed_interface_types_.begin(), it);
     if (!controller_interface::get_ordered_interfaces(
           state_interfaces_, admittance_->parameters_.joints, interface,
-          joint_state_interface_[index]))
+          joint_state_interface_[static_cast<size_t>(index)]))
     {
       RCLCPP_ERROR(
         get_node()->get_logger(), "Expected %zu '%s' state interfaces, got %zu.", num_joints_,
-        interface.c_str(), joint_state_interface_[index].size());
+        interface.c_str(), joint_state_interface_[static_cast<size_t>(index)].size());
       return CallbackReturn::ERROR;
     }
   }
@@ -321,11 +321,12 @@ controller_interface::CallbackReturn AdmittanceController::on_activate(
       std::find(allowed_interface_types_.begin(), allowed_interface_types_.end(), interface);
     auto index = std::distance(allowed_interface_types_.begin(), it);
     if (!controller_interface::get_ordered_interfaces(
-          command_interfaces_, command_joint_names_, interface, joint_command_interface_[index]))
+          command_interfaces_, command_joint_names_, interface,
+          joint_command_interface_[static_cast<size_t>(index)]))
     {
       RCLCPP_ERROR(
         get_node()->get_logger(), "Expected %zu '%s' command interfaces, got %zu.", num_joints_,
-        interface.c_str(), joint_command_interface_[index].size());
+        interface.c_str(), joint_command_interface_[static_cast<size_t>(index)].size());
       return CallbackReturn::ERROR;
     }
   }
