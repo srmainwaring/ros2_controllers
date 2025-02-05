@@ -22,6 +22,10 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
   std_msgs
 )
 
+if(APPLE)
+  find_package(Threads REQUIRED)
+endif()
+
 find_package(ament_cmake REQUIRED)
 find_package(backward_ros REQUIRED)
 foreach(Dependency IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})
